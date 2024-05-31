@@ -9,11 +9,16 @@
 
 O trabalho deverá ser desenvolvido em grupos com no máximo 2 pessoas (quem ficar sozinho me procure), e deverá possuir as seguintes características:
 
-    1) Cada trio deverá escolher o tema abaixo e postar no grupo da disciplina: o tema escolhido e os nomes dos integrantes do grupo (apenas 1 integrante posta essa informação)
+    1) Cada trio deverá escolher o tema abaixo e postar no grupo da disciplina:
+      o tema escolhido e os nomes dos integrantes do grupo (apenas 1 integrante posta essa informação)
     
     2) A apresentação do trabalho será presencial na data marcada abaixo no Sigaa. Não serão aceitas apresentações via EaD.
 
-    3) A apresentação deverá conter obrigatoriamente: a descrição do algorimto em grafo escolhido; a explicação do funcionamento; onde o algoritmo foi/é utilizado; qual o problema que tal algoritmo resolve; e um exemplo do algoritmo rodando.
+    3) A apresentação deverá conter obrigatoriamente: a descrição do algorimto em grafo escolhido;
+      a explicação do funcionamento;
+      onde o algoritmo foi/é utilizado;
+      qual o problema que tal algoritmo resolve;
+      e um exemplo do algoritmo rodando.
 
     4) Todos os integrantes da dupla deverão participar da apresentação.
 
@@ -21,9 +26,12 @@ O trabalho deverá ser desenvolvido em grupos com no máximo 2 pessoas (quem fic
 
     6) Deverá ser utilizado o crédito a distância da disciplina para fazer o trabalho.
 
+
 [Algorítmo usado na apresentação](P4/fila_de_prioridade.js)
 
 [Grafo usado na apresentação](P4/grafo.drawio)
+
+[Trabalho Google Docs](https://docs.google.com/document/d/1h4Ad7ZM1gtJBG2ygRo4euLmgDBGHRNMsg-WPLjGkUHU/edit?usp=sharing)
 
 ### Algorítimo
 ```javascript
@@ -170,3 +178,33 @@ console.log(caminho);
 
 ### Grafo
 ![representação do grafo usado no algorítmo](P4/grafo.png)
+
+### Trabalho escrito
+**__Algoritmo de Dijkstra__**
+
+
+Discentes: Gabriel de Almeida Moraes, Matheus Reis Barros, Julio Cesar Colli
+
+Docente: Francisco Sanches Banhos Filho
+
+Matéria: Estrutura de Dados (2024.1 - 2N123)
+
+
+**Introdução:**
+
+
+  Desenvolvido por Edsger W. Dijkstra, o algoritmo de Dijkstra tem o propósito de encontrar o caminho mais curto de um nó origem para um nó destino, considerando todos os outros nós, em um grafo com arestas de pesos não negativos. Assim, resolvendo problemas de navegação em rotas.
+
+**OSPF:**
+
+
+  OSPF (Open Shortest Path First) é um IGP (Interior Gateway Protocol) que  utiliza  uma estrutura de dados de árvore, ou SPT (Shortest Path Tree), criada por uma variação do algoritmo de Dijkstra, que é constituída apenas pelos caminhos mais curtos do roteador origem aos outros roteadores da rede.
+
+  _img_
+
+
+**Navegação diversas:**
+
+
+_img_
+_img_
