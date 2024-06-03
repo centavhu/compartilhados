@@ -1,88 +1,82 @@
 class ListaDePrioridade {
   constructor() {
-    this.heap = [];
+    this.filaP = [];
   }
 
-  parentIndex(index) {
+  indexPai(index) {
     return Math.floor((index - 1) / 2);
   }
 
-  leftChildIndex(index) {
+  indexFilhoEsquerda(index) {
     return 2 * index + 1;
   }
 
-  rightChildIndex(index) {
+  indexFilhoDireita(index) {
     return 2 * index + 2;
   }
 
-  swap(index1, index2) {
-    [this.heap[index1], this.heap[index2]] = [
-      this.heap[index2],
-      this.heap[index1],
+  trocar(index1, index2) {
+    [this.filaP[index1], this.filaP[index2]] = [
+      this.filaP[index2],
+      this.filaP[index1],
     ];
   }
 
-  insert(element) {
-    this.heap.push(element);
-    this.heapifyUp();
+  inserir(element) {
+    this.filaP.push(element);
+    this.empilharEmCima();
   }
 
-  heapifyUp() {
-    let index = this.heap.length - 1;
+  empilharEmCima() {
+    let index = this.filaP.length - 1;
+
     while (
       index > 0 &&
-      this.heap[index].priority < this.heap[this.parentIndex(index)].priority
+      this.filaP[index].priority < this.filaP[this.indexPai(index)].priority
     ) {
-      this.swap(index, this.parentIndex(index));
-      index = this.parentIndex(index);
+      this.trocar(index, this.indexPai(index));
+      index = this.indexPai(index);
     }
   }
 
   extractMin() {
-    if (this.heap.length === 0) {
-      throw new Error("Heap is empty");
+    if (this.filaP.length === 0) {
+      throw new Error("Lista vazia");
     }
-    if (this.heap.length === 1) {
-      return this.heap.pop();
+    if (this.filaP.length === 1) {
+      return this.filaP.pop();
     }
-    const min = this.heap[0];
-    this.heap[0] = this.heap.pop();
-    this.heapifyDown();
+
+    const min = this.filaP[0];
+    this.filaP[0] = this.filaP.pop();
+    this.empilharAbaixo();
+
     return min;
   }
 
-  heapifyDown() {
+  empilharAbaixo() {
     let index = 0;
-    while (this.leftChildIndex(index) < this.heap.length) {
-      let smallerChildIndex = this.leftChildIndex(index);
+
+    while (this.indexFilhoEsquerda(index) < this.filaP.length) {
+      let menorIndex = this.indexFilhoEsquerda(index);
+
       if (
-        this.rightChildIndex(index) < this.heap.length &&
-        this.heap[this.rightChildIndex(index)].priority <
-          this.heap[smallerChildIndex].priority
+        this.indexFilhoDireita(index) < this.filaP.length &&
+        this.filaP[this.indexFilhoDireita(index)].priority <
+          this.filaP[menorIndex].priority
       ) {
-        smallerChildIndex = this.rightChildIndex(index);
+        menorIndex = this.indexFilhoDireita(index);
       }
-      if (this.heap[index].priority <= this.heap[smallerChildIndex].priority) {
+      if (this.filaP[index].priority <= this.filaP[menorIndex].priority) {
         break;
       }
-      this.swap(index, smallerChildIndex);
-      index = smallerChildIndex;
+      this.trocar(index, menorIndex);
+      index = menorIndex;
     }
   }
 
-  isEmpty() {
-    return this.heap.length === 0;
-  }
-
-  size() {
-    return this.heap.length;
-  }
-
-  peek() {
-    if (this.heap.length === 0) {
-      throw new Error("Heap is empty");
-    }
-    return this.heap[0];
+  estaVazio() {
+    return this.filaP.length === 0;
   }
 }
 
@@ -94,31 +88,32 @@ function AlgoritmoDeDijkstra(grafo, vertice_inicial) {
   for (let vertice in grafo) {
     if (vertice === vertice_inicial) {
       distancia_arestas[vertice] = 0;
-      lista.insert({ value: vertice, priority: 0 });
+      lista.inserir({ value: vertice, priority: 0 });
     } else {
       distancia_arestas[vertice] = Infinity;
-      lista.insert({ value: vertice, priority: Infinity });
+      lista.inserir({ value: vertice, priority: Infinity });
     }
     caminho[vertice] = null;
   }
 
   // console.log(distancia_arestas); -> {A: 0, B: Infinity, C: Infinity, D: Infinity}
   // console.log(caminho); -> {A: null, B: null, C: null, D: null}
-
-  while (!lista.isEmpty()) {
+  
+  while (!lista.estaVazio()) {
     const { value: vertice_atual } = lista.extractMin(); // retorna o indice do array, 'A'
 
     for (let vertice_ligacao in grafo[vertice_atual]) { // pega cada valor do array 'A' por vez
       let distancia = grafo[vertice_atual][vertice_ligacao];
-      let nova_distancia = distancia_arestas[vertice_atual] + distancia;
+      let nova_distancia = distancia_arestas[vertice_atual] + distancia; // infinity + num = num
 
-      if (nova_distancia < distancia_arestas[vertice_ligacao]) {
+      if (nova_distancia < distancia_arestas[vertice_ligacao]) { //infinity é sempre maior
         distancia_arestas[vertice_ligacao] = nova_distancia;
         caminho[vertice_ligacao] = vertice_atual;
-        lista.insert({ value: vertice_ligacao, priority: nova_distancia });
+        lista.inserir({ value: vertice_ligacao, priority: nova_distancia });
       }
     }
   }
+  
 
   return { distancia_arestas, caminho };
 }
@@ -135,5 +130,10 @@ const { distancia_arestas, caminho } = AlgoritmoDeDijkstra(grafo, "A");
 console.log(`Distância das arestas do menor caminho:`);
 console.log(distancia_arestas);
 
-console.log(`\nMenor caminho:`);
+console.log(`Menor caminho:`);
 console.log(caminho);
+
+let testeArr = [1,2,3];
+testeArr.pop();
+console.log(testeArr);
+console.log(Infinity + 1);
