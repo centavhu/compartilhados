@@ -18,58 +18,60 @@ import java.util.Optional;
 import javax.swing.table.TableColumn;
 import javax.swing.text.TableView;
 
-import crud.DateCount;
+import crud.CurrentYearUFCount;
 
 import java.sql.*;
 
-public class RelatorioCountBirthController {
+public class RelatorioCurrentYearUFCountController {
 
     @FXML
-    private TableView<DateCount> tableView;
+    private TableView<CurrentYearUFCount> tableView;
 
     @FXML
-    private TableColumn<DateCount, String> yearColumn;
+    private TableColumn<CurrentYearUFCount, String> yearColumn;
 
     @FXML
-    private TableColumn<DateCount, String> monthColumn;
+    private TableColumn<CurrentYearUFCount, String> ufColumn;
 
     @FXML
-    private TableColumn<DateCount, Integer> countColumn;
+    private TableColumn<CurrentYearUFCount, Integer> countColumn;
 
     @FXML
     private void initialize() {
-        showDateCounts();
+        showCurrentYearUFCounts();
     }
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/crud?serverTimezone=UTC", "root", "2165");
     }
 
-    private ObservableList<DateCount> getDateCountsList() {
-        ObservableList<DateCount> dateCountsList = FXCollections.observableArrayList();
+    private ObservableList<CurrentYearUFCount> getCurrentYearUFCountsList() {
+        ObservableList<CurrentYearUFCount> currentYearUFCountsList = FXCollections.observableArrayList();
 
-        String query = "SELECT YEAR(STR_TO_DATE(DateOfBirth, '%d/%m/%y')) AS Year, " + //
-                        "MONTH(STR_TO_DATE(DateOfBirth, '%d/%m/%y')) AS Month, " + //
-                        "COUNT(*) AS Count " + //
-                        "FROM persons " + //
-                        "GROUP BY Year, Month " + //
-                        "ORDER BY Year, Month";
+        String query = "SELECT " +
+                            "YEAR(STR_TO_DATE(DateOfBirth, '%d/%m/%y')) AS Year, "+
+                            "UF, "+
+                            "COUNT(*) AS Count "+
+                        "FROM persons "+
+                        "GROUP BY Year, UF "+
+                        "HAVING Year = YEAR(CURRENT_DATE()) "+
+                        "ORDER BY UF";
 
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                DateCount dateCount = new DateCount(rs.getString("year"), rs.getString("month"), rs.getInt("count"));
-                dateCountsList.add(dateCount);
+                CurrentYearUFCount currentYearUFCount = new CurrentYearUFCount(rs.getString("year"), rs.getString("month"), rs.getInt("count"));
+                currentYearUFCountsList.add(currentYearUFCount);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Erro ao buscar clientes: " + e.getMessage());
         }
-        return dateCountsList;
+        return currentYearUFCountsList;
     }
 
-    private void showDateCounts() {
-        ObservableList<DateCount> list = getDateCountsList();
+    private void showCurrentYearUFCounts() {
+        ObservableList<CurrentYearUFCount> list = getCurrentYearUFCountsList();
 
         yearColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getYear()));
         monthColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMonth()));
