@@ -49,18 +49,17 @@ public class RelatorioCurrentYearUFCountController {
         ObservableList<CurrentYearUFCount> currentYearUFCountsList = FXCollections.observableArrayList();
 
         String query = "SELECT " +
-                            "YEAR(STR_TO_DATE(DateOfBirth, '%d/%m/%y')) AS Year, "+
+                            "YEAR(STR_TO_DATE(DateOfBirth, '%d/%m/%Y')) AS Year, "+
                             "UF, "+
                             "COUNT(*) AS Count "+
                         "FROM persons "+
                         "GROUP BY Year, UF "+
-                        "HAVING Year = YEAR(CURRENT_DATE()) "+
-                        "ORDER BY UF";
+                        "ORDER BY Year desc, UF";
 
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                CurrentYearUFCount currentYearUFCount = new CurrentYearUFCount(rs.getString("year"), rs.getString("month"), rs.getInt("count"));
+                CurrentYearUFCount currentYearUFCount = new CurrentYearUFCount(rs.getString("Year"), rs.getString("UF"), rs.getInt("Count"));
                 currentYearUFCountsList.add(currentYearUFCount);
             }
         } catch (SQLException e) {
@@ -74,7 +73,7 @@ public class RelatorioCurrentYearUFCountController {
         ObservableList<CurrentYearUFCount> list = getCurrentYearUFCountsList();
 
         yearColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getYear()));
-        monthColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMonth()));
+        ufColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUF()));
         countColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCount()).asObject());
 
         tableView.setItems(list);

@@ -48,17 +48,17 @@ public class RelatorioCountBirthController {
     private ObservableList<DateCount> getDateCountsList() {
         ObservableList<DateCount> dateCountsList = FXCollections.observableArrayList();
 
-        String query = "SELECT YEAR(STR_TO_DATE(DateOfBirth, '%d/%m/%y')) AS Year, " + //
-                        "MONTH(STR_TO_DATE(DateOfBirth, '%d/%m/%y')) AS Month, " + //
+        String query = "SELECT YEAR(STR_TO_DATE(DateOfBirth, '%d/%m/%Y')) AS Year, " + //
+                        "DATE_FORMAT(STR_TO_DATE(DateOfBirth, '%d/%m/%Y'), '%M') AS Month, " + //
                         "COUNT(*) AS Count " + //
                         "FROM persons " + //
                         "GROUP BY Year, Month " + //
-                        "ORDER BY Year, Month";
+                        "ORDER BY Year desc, Month desc";
 
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                DateCount dateCount = new DateCount(rs.getString("year"), rs.getString("month"), rs.getInt("count"));
+                DateCount dateCount = new DateCount(rs.getString("Year"), rs.getString("Month"), rs.getInt("Count"));
                 dateCountsList.add(dateCount);
             }
         } catch (SQLException e) {

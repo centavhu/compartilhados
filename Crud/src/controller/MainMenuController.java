@@ -60,14 +60,14 @@ public class MainMenuController {
         }
     }
 
-    public void openRelatorioCountAge() {
+    public void openRelatorioCurrentYearUFCount() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RelatorioCountAge.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RelatorioCurrentYearUFCount.fxml"));
             Parent root = loader.load();
-            RelatorioCountAgeController controller = loader.getController();
+            RelatorioCurrentYearUFCountController controller = loader.getController();
             Stage consultaStage = new Stage();
             consultaStage.setScene(new Scene(root));
-            consultaStage.setTitle("Relatório de idades dos clientes");
+            consultaStage.setTitle("Relatório de quantidade de clientes por UF");
             consultaStage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,5 +13,5 @@
     <Button text="Cadastrar Cliente" onAction="#openCadastroCliente" style="-fx-font-size: 18px; -fx-min-width: 200px;"/>
     <Button text="Consultar Clientes" onAction="#openConsultaClientes" style="-fx-font-size: 18px; -fx-min-width: 200px;"/>
     <Button text="Relatório Qnt Aniversários" onAction="#openRelatorioCountBirth" style="-fx-font-size: 18px; -fx-min-width: 200px;"/>
-    <Button text="Relatório Qnt Clientes por UF" onAction="#openRelatorioCurrentYearUFCount" style="-fx-font-size: 18px; -fx-min-width: 200px;"/>
+    <Button text="Relatório Qnt Clientes" onAction="#openRelatorioCurrentYearUFCount" style="-fx-font-size: 18px; -fx-min-width: 200px;"/>
 </VBox>
